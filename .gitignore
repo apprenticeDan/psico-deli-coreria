@@ -1,0 +1,99 @@
+# ======================================================================
+# .gitignore para Proyecto Fullstack (Java/Spring Boot + Node.js/SolidJS)
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# 1. Dependencias y Artefactos de Frontend (Node.js / Vite / SolidJS)
+# ----------------------------------------------------------------------
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.npm
+frontend/.eslintcache
+frontend/.vite/
+
+# ----------------------------------------------------------------------
+# 2. Dependencias y Artefactos de Backend (Java / Spring Boot / Gradle)
+# ----------------------------------------------------------------------
+backend/.gradle/
+backend/build/
+backend/out/
+backend/bin/
+backend/target/
+# No ignorar el wrapper de Gradle:
+!backend/gradle/wrapper/gradle-wrapper.jar
+!backend/gradlew
+!backend/gradlew.bat
+
+# Logs
+*.log
+backend/logs/
+
+# ----------------------------------------------------------------------
+# 3. Entornos e Infraestructura (Devcontainers / Docker)
+# ----------------------------------------------------------------------
+# NUNCA ignorar .devcontainer/ ni docker-compose.yml
+# Pero sí podemos ignorar volúmenes locales si los mapeamos en la raíz
+db-data/
+postgres-data/
+
+# ----------------------------------------------------------------------
+# 4. Configuraciones de IDEs (Para que cada Dev use el suyo sin conflictos)
+# ----------------------------------------------------------------------
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# IntelliJ IDEA / WebStorm / PhpStorm
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# ----------------------------------------------------------------------
+# 5. Archivos del Sistema Operativo
+# ----------------------------------------------------------------------
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.cab
+*.msi
+*.msm
+*.msp
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
