@@ -1,0 +1,32 @@
+# ================================================================
+# GitHub Actions Workflow: Validar Archivos de Roles del Equipo
+# ================================================================
+# Este workflow se ejecuta cada vez que alguien abre o actualiza
+# un Pull Request hacia la rama 'main'.
+# Verifica que los archivos de rol en docs/roles/ existan y
+# tengan el formato correcto.
+# ================================================================
+
+name: Validar Roles del Equipo
+
+# ¿Cuándo se ejecuta?
+# - Cuando se abre un Pull Request hacia main
+# - Cuando se actualiza (push nuevo) un Pull Request existente hacia main
+on:
+  pull_request:
+    branches: [ main, "setup/**" ]
+
+jobs:
+  validar-roles:
+    name: Verificar archivos de roles
+    # La VM gratuita de GitHub (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Descargar el código del repo dentro de la VM
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # Paso 2: Ejecutar nuestro script de validación
+      - name: Ejecutar validación de roles
+        run: bash scripts/validate-roles.sh

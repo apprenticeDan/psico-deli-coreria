@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: java_fullstack_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: appdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  dev-env:
+    # Usamos la imagen base construida para Java + Node.js
+    image: ing.sw/java21-solid-dev:1.0.1
+    container_name: java_fullstack_dev
+    # Montamos el directorio superior (fullstack/) al contenedor para tener acceso a frontend y backend
+    volumes:
+      - .:/workspace:cached,Z
+    # Mapeo de puertos: 8080 para Spring Boot, 5173 para Vite (SolidJS)
+    ports:
+      - "8080:8080"
+      - "5173:5173"
+    # sleep infinity mantiene el contenedor vivo para poder conectarnos
+    command: sleep infinity
+    # Usamos el usuario 'dev' (ID 1000) configurado en el Containerfile
+    user: dev
+    userns_mode: keep-id
+    depends_on:
+      - db
+
+volumes:
+  db-data:
