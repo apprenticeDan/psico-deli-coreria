@@ -1,0 +1,38 @@
+@echo off
+setlocal
+
+:: Script para Windows (Batch)
+
+set VERSION=%1
+set REGISTRY=%2
+
+if "%VERSION%"=="" (
+    echo ERROR: Debes especificar una version.
+    echo Uso: build-java-base.cmd ^<version^> [registro]
+    echo Ejemplo: build-java-base.cmd 1.0.0
+    exit /b 1
+)
+
+if "%REGISTRY%"=="" set REGISTRY=ing.sw
+
+set IMAGE_NAME=java21-solid-dev
+set FULL_IMAGE=%REGISTRY%/%IMAGE_NAME%
+
+echo Construyendo %FULL_IMAGE%:%VERSION% ...
+
+:: Usamos 'docker' por defecto, ya que es lo mas comun en Windows (Docker Desktop).
+:: Si el desarrollador usa Podman Desktop, puede cambiar 'docker' por 'podman'.
+docker build -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
+
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo ERROR: Hubo un problema al construir la imagen.
+    exit /b %ERRORLEVEL%
+)
+
+echo.
+echo ===============================
+echo Imagen creada exitosamente:
+echo   %FULL_IMAGE%:%VERSION%
+echo   %FULL_IMAGE%:latest
+echo ===============================
