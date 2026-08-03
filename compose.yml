@@ -14,7 +14,7 @@ services:
 
   dev-env:
     # Usamos la imagen base construida para Java + Node.js
-    image: ing.sw/java21-solid-dev:1.0.1
+    image: ing.sw/java21-solid-dev:1.0.0
     container_name: java_fullstack_dev
     # Montamos el directorio superior (fullstack/) al contenedor para tener acceso a frontend y backend
     volumes:
