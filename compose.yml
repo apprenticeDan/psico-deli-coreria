@@ -1,7 +1,7 @@
+name: psico-deli-coreria
 services:
   db:
     image: postgres:16-alpine
-    container_name: java_fullstack_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: dev
@@ -15,7 +15,6 @@ services:
   dev-env:
     # Usamos la imagen base construida para Java + Node.js
     image: ing.sw/java21-solid-dev:1.0.1
-    container_name: java_fullstack_dev
     # Montamos el directorio superior (fullstack/) al contenedor para tener acceso a frontend y backend
     volumes:
       - .:/workspace:cached,Z

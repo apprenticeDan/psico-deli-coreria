@@ -20,9 +20,12 @@ set FULL_IMAGE=%REGISTRY%/%IMAGE_NAME%
 
 echo Construyendo %FULL_IMAGE%:%VERSION% ...
 
-:: Usamos 'docker' por defecto, ya que es lo mas comun en Windows (Docker Desktop).
-:: Si el desarrollador usa Podman Desktop, puede cambiar 'docker' por 'podman'.
-docker build -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
+:: Detectamos si el usuario usa Podman o Docker
+set DOCKER_CMD=docker
+where podman >nul 2>nul
+if %ERRORLEVEL% equ 0 set DOCKER_CMD=podman
+
+%DOCKER_CMD% build -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
 
 if %ERRORLEVEL% NEQ 0 (
     echo.

@@ -38,8 +38,8 @@ Imagina que eres **dev01** y necesitas subir tu archivo `rol_dev01.md`.
 
 ### Paso 1: Clonar el repo (Solo la primera vez)
 ```bash
-git clone https://github.com/tu-org/projectoy.git
-cd projectoy
+git clone https://github.com/tu-org/psico-deli-coreria.git
+cd psico-deli-coreria
 ```
 
 ### Paso 2: Asegurarte de tener la última versión de `main`
