@@ -3,6 +3,7 @@
     "dockerComposeFile": "../compose.yml",
     "service": "dev-env",
     "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
     "updateRemoteUserUID": true,
     "remoteUser": "dev",
     "forwardPorts": [

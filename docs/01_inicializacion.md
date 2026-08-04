@@ -19,13 +19,13 @@ Antes de iniciar el entorno por primera vez, cada desarrollador necesita constru
 **En Linux o macOS:**
 ```bash
 cd base
-./build-java-base.sh 1.0.0
+./build-java-base.sh 1.0.1
 ```
 
 **En Windows:**
 ```cmd
 cd base
-build-java-base.cmd 1.0.0
+build-java-base.cmd 1.0.1
 ```
 
 > **Nota:** Este proceso tomará unos minutos mientras descarga Java y Node.js. Esto solo debe ejecutarse la primera vez, o cuando se agreguen dependencias globales nuevas al `Containerfile.java`.
@@ -42,7 +42,7 @@ podman images
 docker images
 ```
 
-Deberías ver en la lista la imagen `ing.sw/java21-solid-dev` con la etiqueta `1.0.0` y `latest`. 
+Deberías ver en la lista la imagen `ing.sw/java21-solid-dev` con la etiqueta `1.0.1` y `latest`. 
 **Dato importante:** Ese nombre exacto de la imagen es el que está configurado en el archivo `compose.yml` (y a su vez ligado al `.devcontainer.json`), asegurando que todo el equipo trabaje sobre exactamente la misma base.
 
 ### 2. Levantar el Entorno

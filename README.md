@@ -6,7 +6,7 @@ Bienvenido a nuestra proyecto, una aplicación Fullstack desarrollada con **Spri
 
 Este proyecto utiliza Devcontainers (Docker/Podman) para estandarizar el entorno de todos los desarrolladores. No necesitas instalar Java, Node.js ni PostgreSQL en tu máquina local.
 
-👉 **[Ver Instrucciones para Levantar el Entorno](docs/01_readme_init.md)**
+👉 **[Ver Instrucciones para Levantar el Entorno](docs/01_inicializacion.md)**
 
 ---
 
@@ -39,7 +39,7 @@ pnpm run dev
 ## 📚 Documentación (FDD)
 Puedes encontrar toda la documentación de requerimientos, reglas de negocio, dominio y características en la carpeta `/docs`:
 
-- `01_readme_init.md`: Configuración de la infraestructura (Contenedores).
+- `01_inicializacion.md`: Configuración de la infraestructura (Contenedores).
 - `02_contexto_y_requerimientos.md`: *[Pendiente]*
 - `03_reglas_de_negocio.md`: *[Pendiente]*
 - `04_modelo_de_dominio.md`: *[Pendiente]*
