@@ -11,23 +11,17 @@
        Backend               Frontend
        Java                  TypeScript
           │                     │
-   implementación          implementación
-   de dominio              de dominio
+   implementación          validaciones
+   de dominio              ligeras / UI
           │                     │
        Spring               SolidJS
 
 
-- No todo tiene que implementarse dos veces!!
+- Fuente Única de Verdad (Backend)
 
-  Hay funciones que son:
-    deterministas;
-    puras;
-    pequeñas;
-    sin acceso a base de datos;
-    sin Spring;
-    sin HTTP;
-    sin navegador.
-  Son candidatas para existir tanto en Java como en TypeScript.
+  El frontend consumirá los modelos (ADTs) y contratos establecidos en la Especificación de Dominio (Doc F) para crear una experiencia fluida (por ejemplo, validar formularios o mostrar cálculos en vivo), pero **la lógica pura de dominio centralizada y la autoridad final vivirán exclusivamente en el backend.**
+  
+  Con esto, evitamos duplicar lógica compleja de negocio entre Java y TypeScript, reduciendo drásticamente el costo de mantenimiento. Solo duplicaremos lógica en el frontend cuando sea estrictamente necesaria para la UX.
 
 Hay cosas que NO debemos duplicar
 El frontend puede preparar una venta,
@@ -98,20 +92,18 @@ Podemos tener otra capa de contratos:
                        └───────────┘
 
  Es decir algo así:
+
+  Documento A-E
+Análisis y Requisitos del Negocio (Casos de uso de negocio, dominio conceptual, reglas)
+
   Documento F
-API funcional del dominio
+API funcional del dominio (Especificación de tipos y contratos)
 
-Documento G
-Arquitectura de implementación
+  Documento G
+Contrato API HTTP (Swagger/OpenAPI temprano para paralelizar Frontend/Backend)
 
-Documento H
-API de aplicación / casos de uso
-
-Documento I
-Contrato API HTTP
-
-Documento J
-Plan FDD + TDD
+  Documento H
+Plan FDD + TDD (Capa de aplicación y despliegue iterativo)
 
 
 - Resumen

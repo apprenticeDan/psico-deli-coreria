@@ -1,6 +1,6 @@
 # Enfoque: Especificación de la API funcional del dominio (Documento F — Especificación)
 
-una API conceptual/programática del dominio, independiente de la "tecnología" (Contratos de dominio compartidos java y typescript)
+Una API conceptual/programática del dominio, independiente de la "tecnología" (Modelos y contratos compartidos, pero con la lógica pura centralizada en el Backend como única fuente de verdad).
 
 ---
 
