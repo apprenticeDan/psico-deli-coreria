@@ -1,6 +1,6 @@
 # Containerfile.java
 # Imagen compartida para desarrollo Java 21 (LTS) + Spring Boot + TypeScript/SolidJS/Tailwind.
-FROM eclipse-temurin:21-jdk
+FROM docker.io/eclipse-temurin:21-jdk
 
 # --------------------------------------------------------------------
 # Herramientas base y Node.js
