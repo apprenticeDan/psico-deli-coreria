@@ -1,7 +1,7 @@
 name: psico-deli-coreria
 services:
   db:
-    image: postgres:16-alpine
+    image: docker.io/postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: dev
@@ -26,7 +26,7 @@ services:
     command: sleep infinity
     # Usamos el usuario 'dev' (ID 1000) configurado en el Containerfile
     user: dev
-    userns_mode: keep-id
+    # userns_mode: keep-id
     depends_on:
       - db
 
