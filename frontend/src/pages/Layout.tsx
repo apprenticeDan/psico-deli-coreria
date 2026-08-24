@@ -1,4 +1,4 @@
-import { Component } from 'solid-js';
+import type { Component } from 'solid-js';
 import { A, useNavigate } from '@solidjs/router';
 import { logout, isAdmin } from '../store/authStore';
 

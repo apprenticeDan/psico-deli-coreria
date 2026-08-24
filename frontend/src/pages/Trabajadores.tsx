@@ -1,4 +1,5 @@
-import { Component, createSignal, createResource, Show } from 'solid-js';
+import { createSignal, createResource, Show } from 'solid-js';
+import type { Component } from 'solid-js';
 import { token } from '../store/authStore';
 
 const fetchTrabajadores = async () => {
