@@ -1,4 +1,7 @@
 name: psico-deli-coreria
+
+x-podman:
+  in_pod: false
 services:
   db:
     image: docker.io/postgres:16-alpine
