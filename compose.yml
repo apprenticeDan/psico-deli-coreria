@@ -1,7 +1,7 @@
 name: psico-deli-coreria
 services:
   db:
-    image: postgres:16-alpine
+    image: docker.io/postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: dev
