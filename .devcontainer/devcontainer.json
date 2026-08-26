@@ -7,9 +7,9 @@
     // "updateRemoteUserUID": true,
     "remoteUser": "dev",
     "forwardPorts": [
-        8080,
-        5173,
-        5432
+        8088,
+        5174,
+        5430
     ],
     // "postStartCommand": "sudo chown -R dev:dev /workspace || true",
     "postCreateCommand": "bash -lc 'if [ -f backend/build.gradle.kts ]; then cd backend && ./gradlew build -x test; fi; if [ -d frontend ]; then cd frontend && pnpm install; fi'",

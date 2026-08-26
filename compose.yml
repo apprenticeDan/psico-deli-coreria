@@ -5,13 +5,13 @@ x-podman:
 services:
   db:
     image: docker.io/postgres:16-alpine
-    restart: unless-stopped
+    # restart: unless-stopped
     environment:
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: password
       POSTGRES_DB: appdb
     ports:
-      - "5432:5432"
+      - "5430:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
 
@@ -23,8 +23,8 @@ services:
       - .:/workspace:cached,Z
     # Mapeo de puertos: 8080 para Spring Boot, 5173 para Vite (SolidJS)
     ports:
-      - "8080:8080"
-      - "5173:5173"
+      - "8088:8080"
+      - "5174:5173"
     # sleep infinity mantiene el contenedor vivo para poder conectarnos
     command: sleep infinity
     # Usamos el usuario 'dev' (ID 1000) configurado en el Containerfile

@@ -1,17 +1,12 @@
 import { createSignal, createResource, Show } from 'solid-js';
 import type { Component } from 'solid-js';
 import { token } from '../store/authStore';
-
-const fetchTrabajadores = async () => {
-  const res = await fetch('http://localhost:8080/api/trabajadores', {
-    headers: { 'Authorization': `Bearer ${token()}` }
-  });
-  if (!res.ok) throw new Error('Error cargando trabajadores');
-  return res.json();
-};
+import { trabajadoresService } from '../services/api';
 
 const Trabajadores: Component = () => {
-  const [trabajadores, { refetch }] = createResource(fetchTrabajadores);
+  const [trabajadores, { refetch }] = createResource(token, (authToken) =>
+    trabajadoresService.getTodos(authToken)
+  );
   const [showForm, setShowForm] = createSignal(false);
   const [formData, setFormData] = createSignal({
     nombreCompleto: '',
@@ -25,25 +20,12 @@ const Trabajadores: Component = () => {
     e.preventDefault();
     setError('');
     try {
-      const res = await fetch('http://localhost:8080/api/trabajadores', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token()}`
-        },
-        body: JSON.stringify(formData())
-      });
-
-      if (res.ok) {
-        setShowForm(false);
-        setFormData({ nombreCompleto: '', usuario: '', password: '', rol: 'VENDEDOR' });
-        refetch();
-      } else {
-        const err = await res.text();
-        setError(err);
-      }
-    } catch (err) {
-      setError('Error al crear trabajador');
+      await trabajadoresService.crear(formData(), token());
+      setShowForm(false);
+      setFormData({ nombreCompleto: '', usuario: '', password: '', rol: 'VENDEDOR' });
+      refetch();
+    } catch (err: any) {
+      setError(err.message || 'Error al crear trabajador');
     }
   };
 

@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js';
 import type { Component } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
 import { login } from '../store/authStore';
+import { authService } from '../services/api';
 
 const Login: Component = () => {
   const [usuario, setUsuario] = createSignal('');
@@ -16,24 +17,11 @@ const Login: Component = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:8080/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ usuario: usuario(), password: password() }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        login(data.token);
-        navigate('/', { replace: true });
-      } else {
-        const errorText = await res.text();
-        setError(errorText || 'Error de autenticación');
-      }
-    } catch (err) {
-      setError('No se pudo conectar al servidor');
+      const data = await authService.login({ usuario: usuario(), password: password() });
+      login(data.token);
+      navigate('/', { replace: true });
+    } catch (err: any) {
+      setError(err.message || 'Error de autenticación');
     } finally {
       setLoading(false);
     }
