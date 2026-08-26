@@ -135,6 +135,40 @@ export interface CrearTrabajadorDto {
   rol: string;
 }
 
+export interface ProductoDto {
+  id: string;
+  codigo: string;
+  nombre: string;
+  marca: string;
+  categoria: 'CERVEZA' | 'GASEOSA' | 'CIGARRILLO' | 'REFRESCO' | 'TRAGO' | 'COMBO';
+  empaque: string;
+  contenido: number;
+  unidad: 'ML' | 'L' | 'UNIDAD' | 'KG' | 'G' | 'CAJETILLA';
+  presentacionTexto: string;
+  precio: number;
+  estado: 'ACTIVO' | 'INACTIVO';
+  stock: number;
+  esCigarrillo: boolean;
+  unidadesPorCajetilla?: number;
+  stockUnidadesSueltas?: number;
+  precioUnidadSuelta?: number;
+}
+
+export interface CrearProductoDto {
+  codigo?: string;
+  nombre: string;
+  marca?: string;
+  categoria: string;
+  empaque?: string;
+  contenido?: number;
+  unidad?: string;
+  precio: number;
+  stock?: number;
+  esCigarrillo?: boolean;
+  unidadesPorCajetilla?: number;
+  precioUnidadSuelta?: number;
+}
+
 // --- Servicios de Dominio Reutilizables ---
 
 export const authService = {
@@ -154,4 +188,18 @@ export const trabajadoresService = {
 
   cambiarPassword: (id: string, password: string, authToken?: string | null): Promise<TrabajadorDto> =>
     apiClient.put<TrabajadorDto>(`/trabajadores/${id}/password`, { password }, { token: authToken }),
+};
+
+export const productosService = {
+  getTodos: (authToken?: string | null): Promise<ProductoDto[]> =>
+    apiClient.get<ProductoDto[]>('/productos', { token: authToken }),
+
+  crear: (data: CrearProductoDto, authToken?: string | null): Promise<ProductoDto> =>
+    apiClient.post<ProductoDto>('/productos', data, { token: authToken }),
+
+  cambiarEstado: (id: string, estado: 'ACTIVO' | 'INACTIVO', authToken?: string | null): Promise<ProductoDto> =>
+    apiClient.patch<ProductoDto>(`/productos/${id}/estado`, { estado }, { token: authToken }),
+
+  abrirCajetilla: (id: string, cantidad: number = 1, authToken?: string | null): Promise<ProductoDto> =>
+    apiClient.post<ProductoDto>(`/productos/${id}/abrir-cajetilla`, { cantidad }, { token: authToken }),
 };

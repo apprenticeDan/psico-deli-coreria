@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Dashboard from './pages/Dashboard';
 import Trabajadores from './pages/Trabajadores';
+import Productos from './pages/Productos';
 
 const root = document.getElementById('root');
 
@@ -33,5 +34,6 @@ render(() => (
     <Route path="/login" component={Login} />
     <Route path="/" component={() => <ProtectedRoute><Dashboard /></ProtectedRoute>} />
     <Route path="/trabajadores" component={() => <ProtectedRoute><Trabajadores /></ProtectedRoute>} />
+    <Route path="/productos" component={() => <ProtectedRoute><Productos /></ProtectedRoute>} />
   </Router>
 ), root!);

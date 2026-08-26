@@ -5,28 +5,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 /**
- * Value Object inmutable que representa el concepto de Producto
- * en nuestro Dominio Puro (Documento F).
+ * Agregado/Entidad inmutable de Dominio que representa un Producto (Documento F).
  */
 public record Producto(
     UUID id,
+    String codigo,
     String nombre,
+    String marca,
     CategoriaProducto categoria,
+    Presentacion presentacion,
     BigDecimal precio,
     EstadoProducto estado,
     Integer stock,
-    Optional<BigDecimal> descuento
+    Optional<BigDecimal> descuento,
+    Optional<DetalleCigarrillo> detalleCigarrillo
 ) {
-    // Ejemplo de factory method funcional (pura) para creación inicial
-    public static Producto crear(String nombre, CategoriaProducto categoria, BigDecimal precio) {
-        return new Producto(
-            UUID.randomUUID(), 
-            nombre, 
-            categoria, 
-            precio, 
-            EstadoProducto.ACTIVO, 
-            0, 
-            Optional.empty()
-        );
+    public boolean esCigarrillo() {
+        return categoria == CategoriaProducto.CIGARRILLO || detalleCigarrillo.isPresent();
     }
 }
