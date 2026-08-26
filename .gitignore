@@ -101,3 +101,5 @@ $RECYCLE.BIN/
 # Linux
 *~
 .directory
+
+demo/
