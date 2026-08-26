@@ -39,6 +39,10 @@ backend/logs/
 # ----------------------------------------------------------------------
 # NUNCA ignorar .devcontainer/ ni docker-compose.yml
 # Pero sí podemos ignorar volúmenes locales si los mapeamos en la raíz
+# Base de Datos local SQLite generada en tiempo de ejecución
+*.sqlite
+*.sqlite3
+*.db
 db-data/
 postgres-data/
 
