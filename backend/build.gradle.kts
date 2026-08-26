@@ -27,6 +27,9 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
     
+    // PostgreSQL JDBC driver
+    runtimeOnly("org.postgresql:postgresql")
+
     // SQLite JDBC driver
     implementation("org.xerial:sqlite-jdbc:3.45.1.0")
     // Hibernate SQLite Dialect for Spring Boot 3+ (Hibernate 6)
