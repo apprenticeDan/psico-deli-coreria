@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import com.psicodeli.core.dominio.usuario.EstadoTrabajador;
+import java.util.UUID;
+
 @Service
 public class GestionTrabajadorService {
 
@@ -40,6 +43,33 @@ public class GestionTrabajadorService {
         return UsuarioFunciones.crearTrabajador(
                 nombreCompleto, usuario, hash, rol, horarioAsignado
         ).map(trabajadorRepositorio::guardar);
+    }
+
+    public Result<Trabajador, ErrorDominio> cambiarEstado(UUID id, EstadoTrabajador nuevoEstado) {
+        Optional<Trabajador> opt = trabajadorRepositorio.buscarPorId(id);
+        if (opt.isEmpty()) {
+            return Result.error(new ErrorDominio.TrabajadorNoEncontrado());
+        }
+
+        Trabajador modificado = UsuarioFunciones.cambiarEstado(opt.get(), nuevoEstado);
+        Trabajador guardado = trabajadorRepositorio.guardar(modificado);
+        return Result.ok(guardado);
+    }
+
+    public Result<Trabajador, ErrorDominio> cambiarPassword(UUID id, String nuevaPasswordPlana) {
+        if (nuevaPasswordPlana == null || nuevaPasswordPlana.isBlank()) {
+            return Result.error(new ErrorDominio.ValorInvalido("La contraseña no puede estar vacía"));
+        }
+
+        Optional<Trabajador> opt = trabajadorRepositorio.buscarPorId(id);
+        if (opt.isEmpty()) {
+            return Result.error(new ErrorDominio.TrabajadorNoEncontrado());
+        }
+
+        String nuevoHash = passwordHasher.hash(nuevaPasswordPlana);
+        Trabajador modificado = UsuarioFunciones.cambiarPassword(opt.get(), nuevoHash);
+        Trabajador guardado = trabajadorRepositorio.guardar(modificado);
+        return Result.ok(guardado);
     }
 
     public List<Trabajador> listarTrabajadores() {

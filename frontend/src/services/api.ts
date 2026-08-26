@@ -148,4 +148,10 @@ export const trabajadoresService = {
 
   crear: (data: CrearTrabajadorDto, authToken?: string | null): Promise<TrabajadorDto> =>
     apiClient.post<TrabajadorDto>('/trabajadores', data, { token: authToken }),
+
+  cambiarEstado: (id: string, estado: 'ACTIVO' | 'INACTIVO', authToken?: string | null): Promise<TrabajadorDto> =>
+    apiClient.patch<TrabajadorDto>(`/trabajadores/${id}/estado`, { estado }, { token: authToken }),
+
+  cambiarPassword: (id: string, password: string, authToken?: string | null): Promise<TrabajadorDto> =>
+    apiClient.put<TrabajadorDto>(`/trabajadores/${id}/password`, { password }, { token: authToken }),
 };

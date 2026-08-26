@@ -3,6 +3,8 @@ package com.psicodeli.core.dominio.usuario;
 import com.psicodeli.core.dominio.compartido.ErrorDominio;
 import com.psicodeli.core.dominio.compartido.Result;
 
+import com.psicodeli.core.dominio.compartido.UuidV7;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -70,7 +72,7 @@ public class UsuarioFunciones {
         try {
             Credencial credencial = new Credencial(usuario, passwordHash);
             Trabajador trabajador = new Trabajador(
-                UUID.randomUUID(), 
+                UuidV7.generar(), 
                 nombreCompleto, 
                 credencial, 
                 rol != null ? rol : Rol.VENDEDOR, 
@@ -83,6 +85,29 @@ public class UsuarioFunciones {
         }
     }
 
+    public static Trabajador cambiarEstado(Trabajador trabajador, EstadoTrabajador nuevoEstado) {
+        return new Trabajador(
+            trabajador.id(),
+            trabajador.nombreCompleto(),
+            trabajador.credencial(),
+            trabajador.rol(),
+            nuevoEstado,
+            trabajador.horarioAsignado()
+        );
+    }
+
+    public static Trabajador cambiarPassword(Trabajador trabajador, String nuevoPasswordHash) {
+        Credencial nuevaCredencial = new Credencial(trabajador.credencial().usuario(), nuevoPasswordHash);
+        return new Trabajador(
+            trabajador.id(),
+            trabajador.nombreCompleto(),
+            nuevaCredencial,
+            trabajador.rol(),
+            trabajador.estado(),
+            trabajador.horarioAsignado()
+        );
+    }
+
     public static Result<RegistroSesion, ErrorDominio> iniciarSesion(
             Trabajador trabajador, 
             LocalDateTime fechaHora) {
@@ -91,7 +116,7 @@ public class UsuarioFunciones {
         }
         
         RegistroSesion sesion = new RegistroSesion(
-            UUID.randomUUID(), 
+            UuidV7.generar(), 
             trabajador.id(), 
             fechaHora, 
             Optional.empty()

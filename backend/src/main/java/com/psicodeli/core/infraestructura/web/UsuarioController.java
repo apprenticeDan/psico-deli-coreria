@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.psicodeli.core.dominio.usuario.EstadoTrabajador;
+import java.util.Map;
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api")
 public class UsuarioController {
@@ -67,6 +71,43 @@ public class UsuarioController {
 
         if (result.isOk()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(toResponse(result.getValue()));
+        } else {
+            return ResponseEntity.badRequest().body(result.getError().getClass().getSimpleName());
+        }
+    }
+
+    @PatchMapping("/trabajadores/{id}/estado")
+    public ResponseEntity<?> cambiarEstado(@PathVariable UUID id, @RequestBody Map<String, String> request) {
+        String estadoStr = request.get("estado");
+        if (estadoStr == null || estadoStr.isBlank()) {
+            return ResponseEntity.badRequest().body("El campo 'estado' es requerido");
+        }
+
+        try {
+            EstadoTrabajador nuevoEstado = EstadoTrabajador.valueOf(estadoStr.toUpperCase());
+            Result<Trabajador, ErrorDominio> result = gestionService.cambiarEstado(id, nuevoEstado);
+
+            if (result.isOk()) {
+                return ResponseEntity.ok(toResponse(result.getValue()));
+            } else {
+                return ResponseEntity.badRequest().body(result.getError().getClass().getSimpleName());
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Estado inválido. Usar ACTIVO o INACTIVO");
+        }
+    }
+
+    @PutMapping("/trabajadores/{id}/password")
+    public ResponseEntity<?> cambiarPassword(@PathVariable UUID id, @RequestBody Map<String, String> request) {
+        String nuevaPassword = request.get("password");
+        if (nuevaPassword == null || nuevaPassword.isBlank()) {
+            return ResponseEntity.badRequest().body("La contraseña no puede estar vacía");
+        }
+
+        Result<Trabajador, ErrorDominio> result = gestionService.cambiarPassword(id, nuevaPassword.trim());
+
+        if (result.isOk()) {
+            return ResponseEntity.ok(toResponse(result.getValue()));
         } else {
             return ResponseEntity.badRequest().body(result.getError().getClass().getSimpleName());
         }

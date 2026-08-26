@@ -40,3 +40,5 @@ export const logout = () => {
 
 export const isAuthenticated = () => token() !== null;
 export const isAdmin = () => user()?.rol === 'ADMINISTRADOR';
+export const isVendedor = () => user()?.rol === 'VENDEDOR' || user()?.rol === 'ADMINISTRADOR';
+

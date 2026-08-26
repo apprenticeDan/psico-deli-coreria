@@ -29,6 +29,28 @@ const Trabajadores: Component = () => {
     }
   };
 
+  const handleToggleEstado = async (id: string, estadoActual: string) => {
+    const nuevoEstado = estadoActual === 'ACTIVO' ? 'INACTIVO' : 'ACTIVO';
+    try {
+      await trabajadoresService.cambiarEstado(id, nuevoEstado, token());
+      refetch();
+    } catch (err: any) {
+      alert(err.message || 'Error al cambiar estado');
+    }
+  };
+
+  const handleCambiarPassword = async (id: string, usuario: string) => {
+    const nuevaPassword = prompt(`Ingresa la nueva contraseña para ${usuario}:`);
+    if (!nuevaPassword || !nuevaPassword.trim()) return;
+
+    try {
+      await trabajadoresService.cambiarPassword(id, nuevaPassword.trim(), token());
+      alert(`Contraseña de ${usuario} actualizada con éxito.`);
+    } catch (err: any) {
+      alert(err.message || 'Error al cambiar contraseña');
+    }
+  };
+
   return (
     <div class="container">
       <div style={{ display: 'flex', 'justify-content': 'space-between', 'align-items': 'center', 'margin-bottom': '2rem' }}>
@@ -72,18 +94,21 @@ const Trabajadores: Component = () => {
           <table>
             <thead>
               <tr>
+                <th>#</th>
                 <th>Nombre</th>
                 <th>Usuario</th>
                 <th>Rol</th>
                 <th>Estado</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
-              {trabajadores.loading && <tr><td colspan="4">Cargando...</td></tr>}
-              {trabajadores.error && <tr><td colspan="4">Error: {trabajadores.error.message}</td></tr>}
+              {trabajadores.loading && <tr><td colspan="6">Cargando...</td></tr>}
+              {trabajadores.error && <tr><td colspan="6">Error: {trabajadores.error.message}</td></tr>}
               <Show when={trabajadores()}>
-                {trabajadores()?.map((t: any) => (
+                {trabajadores()?.map((t: any, index: number) => (
                   <tr>
+                    <td><strong>#{index + 1}</strong></td>
                     <td>{t.nombreCompleto}</td>
                     <td>{t.usuario}</td>
                     <td>{t.rol}</td>
@@ -91,6 +116,22 @@ const Trabajadores: Component = () => {
                       <span class={`badge ${t.estado === 'ACTIVO' ? 'badge-active' : 'badge-inactive'}`}>
                         {t.estado}
                       </span>
+                    </td>
+                    <td>
+                      <button
+                        class="btn btn-secondary"
+                        style={{ 'margin-right': '0.5rem', padding: '0.25rem 0.5rem', 'font-size': '0.85rem' }}
+                        onClick={() => handleCambiarPassword(t.id, t.usuario)}
+                      >
+                        🔑 Clave
+                      </button>
+                      <button
+                        class={`btn ${t.estado === 'ACTIVO' ? 'btn-danger' : 'btn-primary'}`}
+                        style={{ padding: '0.25rem 0.5rem', 'font-size': '0.85rem' }}
+                        onClick={() => handleToggleEstado(t.id, t.estado)}
+                      >
+                        {t.estado === 'ACTIVO' ? 'Inactivar' : 'Activar'}
+                      </button>
                     </td>
                   </tr>
                 ))}

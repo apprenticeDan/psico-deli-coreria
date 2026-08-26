@@ -27,6 +27,9 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.5")
     
+    // UUIDv7 Generator oficial (RFC 9562)
+    implementation("com.fasterxml.uuid:java-uuid-generator:5.1.0")
+    
     // PostgreSQL JDBC driver
     runtimeOnly("org.postgresql:postgresql")
 

@@ -8,6 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -17,6 +20,7 @@ import java.util.UUID;
 public class TrabajadorJpaEntity {
 
     @Id
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
     private String nombreCompleto;
     private String usuario;
