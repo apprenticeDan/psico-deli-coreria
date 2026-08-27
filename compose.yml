@@ -21,6 +21,7 @@ services:
     # Montamos el directorio superior (fullstack/) al contenedor para tener acceso a frontend y backend
     volumes:
       - .:/workspace:cached,Z
+      - gradle-cache:/home/dev/.gradle
     # Mapeo de puertos: 8080 para Spring Boot, 5173 para Vite (SolidJS)
     ports:
       - "8088:8080"
@@ -35,3 +36,4 @@ services:
 
 volumes:
   db-data:
+  gradle-cache:

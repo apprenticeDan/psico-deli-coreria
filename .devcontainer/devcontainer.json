@@ -11,8 +11,11 @@
         5174,
         5430
     ],
+    "mounts": [
+        "source=gradle-cache,target=/home/dev/.gradle,type=volume"
+    ],
     // "postStartCommand": "sudo chown -R dev:dev /workspace || true",
-    "postCreateCommand": "bash -lc 'if [ -f backend/build.gradle.kts ]; then cd backend && ./gradlew build -x test; fi; if [ -d frontend ]; then cd frontend && pnpm install; fi'",
+    "postCreateCommand": "bash -lc 'if [ -d frontend ]; then cd frontend && pnpm install; fi'",
     "customizations": {
         "vscode": {
             "extensions": [
