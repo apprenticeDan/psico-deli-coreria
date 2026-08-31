@@ -61,8 +61,13 @@ public class UsuarioController {
             horario = Optional.of(new HorarioAsignado(request.horarioDias(), request.horarioHoraInicio(), request.horarioHoraFin()));
         }
 
+        String ci = request.cedulaIdentidad() != null ? request.cedulaIdentidad() : "1234567";
+        String tel = request.telefono() != null ? request.telefono() : "70000000";
+
         Result<Trabajador, ErrorDominio> result = gestionService.registrarTrabajador(
                 request.nombreCompleto(),
+                ci,
+                tel,
                 request.usuario(),
                 request.password(),
                 request.rol(),
@@ -117,6 +122,8 @@ public class UsuarioController {
         return new TrabajadorResponse(
                 t.id(),
                 t.nombreCompleto(),
+                t.cedulaIdentidad(),
+                t.telefono(),
                 t.credencial().usuario(),
                 t.rol(),
                 t.estado()

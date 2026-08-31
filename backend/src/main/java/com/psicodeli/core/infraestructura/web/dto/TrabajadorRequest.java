@@ -7,6 +7,8 @@ import java.util.Set;
 
 public record TrabajadorRequest(
     String nombreCompleto,
+    String cedulaIdentidad,
+    String telefono,
     String usuario,
     String password,
     Rol rol,

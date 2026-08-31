@@ -23,6 +23,8 @@ public class TrabajadorJpaEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private UUID id;
     private String nombreCompleto;
+    private String cedulaIdentidad;
+    private String telefono;
     private String usuario;
     private String passwordHash;
 
@@ -44,6 +46,12 @@ public class TrabajadorJpaEntity {
 
     public String getNombreCompleto() { return nombreCompleto; }
     public void setNombreCompleto(String nombreCompleto) { this.nombreCompleto = nombreCompleto; }
+
+    public String getCedulaIdentidad() { return cedulaIdentidad; }
+    public void setCedulaIdentidad(String cedulaIdentidad) { this.cedulaIdentidad = cedulaIdentidad; }
+
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
 
     public String getUsuario() { return usuario; }
     public void setUsuario(String usuario) { this.usuario = usuario; }

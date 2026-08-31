@@ -31,6 +31,11 @@ public class TrabajadorRepositorioImpl implements TrabajadorRepositorio {
     }
 
     @Override
+    public Optional<Trabajador> buscarPorCedulaIdentidad(String ci) {
+        return jpaRepository.findByCedulaIdentidad(ci).map(this::toDominio);
+    }
+
+    @Override
     public List<Trabajador> listarTodos() {
         return jpaRepository.findAll().stream()
                 .map(this::toDominio)
@@ -60,9 +65,14 @@ public class TrabajadorRepositorioImpl implements TrabajadorRepositorio {
             horario = Optional.of(new HorarioAsignado(dias, entity.getHorarioHoraInicio(), entity.getHorarioHoraFin()));
         }
 
+        String ci = entity.getCedulaIdentidad() != null ? entity.getCedulaIdentidad() : "1234567";
+        String tel = entity.getTelefono() != null ? entity.getTelefono() : "70000000";
+
         return new Trabajador(
                 entity.getId(),
                 entity.getNombreCompleto(),
+                ci,
+                tel,
                 new Credencial(entity.getUsuario(), entity.getPasswordHash()),
                 entity.getRol(),
                 entity.getEstado(),
@@ -74,6 +84,8 @@ public class TrabajadorRepositorioImpl implements TrabajadorRepositorio {
         TrabajadorJpaEntity entity = new TrabajadorJpaEntity();
         entity.setId(dominio.id());
         entity.setNombreCompleto(dominio.nombreCompleto());
+        entity.setCedulaIdentidad(dominio.cedulaIdentidad());
+        entity.setTelefono(dominio.telefono());
         entity.setUsuario(dominio.credencial().usuario());
         entity.setPasswordHash(dominio.credencial().passwordHash());
         entity.setRol(dominio.rol());

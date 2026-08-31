@@ -6,6 +6,8 @@ import java.util.UUID;
 public record Trabajador(
     UUID id,
     String nombreCompleto,
+    String cedulaIdentidad,
+    String telefono,
     Credencial credencial,
     Rol rol,
     EstadoTrabajador estado,
@@ -27,5 +29,16 @@ public record Trabajador(
         if (estado == null) {
             throw new IllegalArgumentException("Estado no puede ser nulo");
         }
+    }
+
+    public Trabajador(
+        UUID id,
+        String nombreCompleto,
+        Credencial credencial,
+        Rol rol,
+        EstadoTrabajador estado,
+        Optional<HorarioAsignado> horarioAsignado
+    ) {
+        this(id, nombreCompleto, "1234567", "70000000", credencial, rol, estado, horarioAsignado);
     }
 }

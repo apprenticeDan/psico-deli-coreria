@@ -20,7 +20,7 @@ class UsuarioFuncionesTest {
         return new Trabajador(
                 UUID.randomUUID(),
                 "Juan Perez",
-                new Credencial(usuario, "hash123"),
+                new Credencial(usuario, "hash123456"),
                 Rol.VENDEDOR,
                 estado,
                 Optional.empty()
@@ -33,7 +33,7 @@ class UsuarioFuncionesTest {
         List<Trabajador> lista = List.of(trabajador);
 
         Result<Trabajador, ErrorDominio> result = UsuarioFunciones.autenticar(
-                "juanp", "hash123", lista, mockHasher
+                "juanp", "hash123456", lista, mockHasher
         );
 
         assertTrue(result.isOk());
@@ -46,7 +46,7 @@ class UsuarioFuncionesTest {
         List<Trabajador> lista = List.of(trabajador);
 
         Result<Trabajador, ErrorDominio> result = UsuarioFunciones.autenticar(
-                "juanp", "wrongpass", lista, mockHasher
+                "juanp", "wrongpass123", lista, mockHasher
         );
 
         assertTrue(result.isError());
@@ -59,7 +59,7 @@ class UsuarioFuncionesTest {
         List<Trabajador> lista = List.of(trabajador);
 
         Result<Trabajador, ErrorDominio> result = UsuarioFunciones.autenticar(
-                "juanp", "hash123", lista, mockHasher
+                "juanp", "hash123456", lista, mockHasher
         );
 
         assertTrue(result.isError());
@@ -84,7 +84,7 @@ class UsuarioFuncionesTest {
     @Test
     void crearTrabajador_DatosValidos_RetornaOk() {
         Result<Trabajador, ErrorDominio> result = UsuarioFunciones.crearTrabajador(
-                "Maria Lopez", "marial", "hash456", Rol.ADMINISTRADOR, Optional.empty()
+                "Maria Lopez", "marial", "hash456789", Rol.ADMINISTRADOR, Optional.empty()
         );
 
         assertTrue(result.isOk());

@@ -40,8 +40,8 @@ pnpm run dev
 Puedes encontrar toda la documentación de requerimientos, reglas de negocio, dominio y características en la carpeta `/docs`:
 
 - `01_inicializacion.md`: Configuración de la infraestructura (Contenedores).
-- `02_contexto_y_requerimientos.md`: *[Pendiente]*
-- `03_reglas_de_negocio.md`: *[Pendiente]*
+- `02_workflow.md`: Flujo de trabajo de desarrollo y Git.
+- `03_reglas_validacion_input_y_tests.md`: Reglas de validación de input, unicidad, restricción de edad (<18) y suite de pruebas.
 - `04_modelo_de_dominio.md`: *[Pendiente]*
 - `06_plan_de_implementacion.md`: *[Pendiente]*
 

@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface TrabajadorJpaRepository extends JpaRepository<TrabajadorJpaEntity, UUID> {
     Optional<TrabajadorJpaEntity> findByUsuario(String usuario);
+    Optional<TrabajadorJpaEntity> findByCedulaIdentidad(String cedulaIdentidad);
 }

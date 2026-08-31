@@ -7,6 +7,8 @@ import java.util.UUID;
 public record TrabajadorResponse(
     UUID id,
     String nombreCompleto,
+    String cedulaIdentidad,
+    String telefono,
     String usuario,
     Rol rol,
     EstadoTrabajador estado

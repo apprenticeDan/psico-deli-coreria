@@ -12,4 +12,11 @@ public sealed interface ErrorDominio {
     record PrecioInvalido() implements ErrorDominio {}
     record CigarrilloInvalido() implements ErrorDominio {}
     record CajetillaInsuficiente() implements ErrorDominio {}
+
+    // Errores de Dominio para Validación de Inputs, Unicidad y Restricción de Edad
+    record CedulaIdentidadYaExiste(String ci) implements ErrorDominio {}
+    record UsuarioYaExiste(String usuario) implements ErrorDominio {}
+    record VentaNoPermitidaMenorDeEdad(int edadCalculada, String categoria) implements ErrorDominio {}
+    record FormatoInvalido(String campo, String razon) implements ErrorDominio {}
 }
+

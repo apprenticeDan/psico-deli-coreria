@@ -4,6 +4,7 @@ import com.psicodeli.core.aplicacion.usuario.puertos.PasswordHasher;
 import com.psicodeli.core.aplicacion.usuario.puertos.TrabajadorRepositorio;
 import com.psicodeli.core.dominio.compartido.ErrorDominio;
 import com.psicodeli.core.dominio.compartido.Result;
+import com.psicodeli.core.dominio.usuario.EstadoTrabajador;
 import com.psicodeli.core.dominio.usuario.HorarioAsignado;
 import com.psicodeli.core.dominio.usuario.Rol;
 import com.psicodeli.core.dominio.usuario.Trabajador;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-
-import com.psicodeli.core.dominio.usuario.EstadoTrabajador;
 import java.util.UUID;
 
 @Service
@@ -32,16 +31,28 @@ public class GestionTrabajadorService {
     public Result<Trabajador, ErrorDominio> registrarTrabajador(
             String nombreCompleto, String usuario, String passwordPlano, 
             Rol rol, Optional<HorarioAsignado> horarioAsignado) {
+        return registrarTrabajador(nombreCompleto, "1234567", "70000000", usuario, passwordPlano, rol, horarioAsignado);
+    }
+
+    public Result<Trabajador, ErrorDominio> registrarTrabajador(
+            String nombreCompleto, String cedulaIdentidad, String telefono,
+            String usuario, String passwordPlano, 
+            Rol rol, Optional<HorarioAsignado> horarioAsignado) {
         
-        // Verifica que no exista
-        if (trabajadorRepositorio.buscarPorUsuario(usuario).isPresent()) {
-            return Result.error(new ErrorDominio.ValorInvalido("El usuario ya existe"));
+        // Unicidad de usuario
+        if (usuario != null && trabajadorRepositorio.buscarPorUsuario(usuario.trim()).isPresent()) {
+            return Result.error(new ErrorDominio.UsuarioYaExiste(usuario.trim()));
         }
 
-        String hash = passwordHasher.hash(passwordPlano);
+        // Unicidad de CI
+        if (cedulaIdentidad != null && trabajadorRepositorio.buscarPorCedulaIdentidad(cedulaIdentidad.trim()).isPresent()) {
+            return Result.error(new ErrorDominio.CedulaIdentidadYaExiste(cedulaIdentidad.trim()));
+        }
+
+        String hash = passwordHasher.hash(passwordPlano != null ? passwordPlano : "");
 
         return UsuarioFunciones.crearTrabajador(
-                nombreCompleto, usuario, hash, rol, horarioAsignado
+                nombreCompleto, cedulaIdentidad, telefono, usuario, hash, rol, horarioAsignado
         ).map(trabajadorRepositorio::guardar);
     }
 
