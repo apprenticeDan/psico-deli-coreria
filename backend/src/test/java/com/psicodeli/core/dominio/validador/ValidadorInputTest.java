@@ -14,7 +14,7 @@ class ValidadorInputTest {
     void validarNombrePersona_NombreValido_RetornaOk() {
         Result<String, ErrorDominio> r1 = ValidadorInput.validarNombrePersona("Juan Pérez");
         Result<String, ErrorDominio> r2 = ValidadorInput.validarNombrePersona("Ana-María D'Amico");
-        Result<String, ErrorDominio> r3 = ValidadorInput.validarNombrePersona("René Ñoño");
+        Result<String, ErrorDominio> r3 = ValidadorInput.validarNombrePersona("René Ñancahuasú");
 
         assertTrue(r1.isOk());
         assertEquals("Juan Pérez", r1.getValue());
@@ -23,7 +23,7 @@ class ValidadorInputTest {
         assertEquals("Ana-María D'Amico", r2.getValue());
 
         assertTrue(r3.isOk());
-        assertEquals("René Ñoño", r3.getValue());
+        assertEquals("René Ñancahuasú", r3.getValue());
     }
 
     @Test

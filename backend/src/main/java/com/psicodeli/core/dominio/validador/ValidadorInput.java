@@ -58,6 +58,16 @@ public class ValidadorInput {
                 "La contraseña contiene caracteres no permitidos"
             ));
         }
+        // Regla de fortaleza: Al menos una mayúscula, una minúscula, un número y un carácter especial
+        // Expresión regular: (?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])
+        String regexFortaleza = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&.#_-]).+$";
+        if (!password.matches(regexFortaleza)) {
+            return Result.error(new ErrorDominio.FormatoInvalido(
+                "password",
+                "La contraseña debe contener al menos una letra mayúscula, una minúscula, un número y un carácter especial (@$!%*?&.#_-)"
+            ));
+        }
+
         return Result.ok(password);
     }
 
@@ -66,12 +76,12 @@ public class ValidadorInput {
             return Result.error(new ErrorDominio.ValorInvalido("La cédula de identidad no puede estar vacía"));
         }
         String ciLimpio = ci.trim();
-        if (!PATRON_CI.matcher(ciLimpio).matches()) {
+        /*if (!PATRON_CI.matcher(ciLimpio).matches()) {
             return Result.error(new ErrorDominio.FormatoInvalido(
                 "cedulaIdentidad", 
                 "La cédula de identidad no tiene un formato válido (5 a 15 caracteres alfanuméricos con extensión opcional)"
             ));
-        }
+        }*/
         return Result.ok(ciLimpio);
     }
 

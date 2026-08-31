@@ -9,6 +9,8 @@ import com.psicodeli.core.dominio.usuario.HorarioAsignado;
 import com.psicodeli.core.dominio.usuario.Rol;
 import com.psicodeli.core.dominio.usuario.Trabajador;
 import com.psicodeli.core.dominio.usuario.UsuarioFunciones;
+import com.psicodeli.core.dominio.validador.ValidadorInput;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class GestionTrabajadorService {
     public Result<Trabajador, ErrorDominio> registrarTrabajador(
             String nombreCompleto, String usuario, String passwordPlano, 
             Rol rol, Optional<HorarioAsignado> horarioAsignado) {
-        return registrarTrabajador(nombreCompleto, "1234567", "70000000", usuario, passwordPlano, rol, horarioAsignado);
+        return registrarTrabajador(nombreCompleto, String.valueOf((int) (Math.random() * 90000000) + 1000000), "70000000", usuario, passwordPlano, rol, horarioAsignado);
     }
 
     public Result<Trabajador, ErrorDominio> registrarTrabajador(
@@ -48,6 +50,13 @@ public class GestionTrabajadorService {
         if (cedulaIdentidad != null && trabajadorRepositorio.buscarPorCedulaIdentidad(cedulaIdentidad.trim()).isPresent()) {
             return Result.error(new ErrorDominio.CedulaIdentidadYaExiste(cedulaIdentidad.trim()));
         }
+        // 3. Validar password PLANO
+            Result<String, ErrorDominio> valPass =
+                    ValidadorInput.validarPassword(passwordPlano);
+
+            if (valPass.isError()) {
+                return Result.error(valPass.getError());
+            }
 
         String hash = passwordHasher.hash(passwordPlano != null ? passwordPlano : "");
 

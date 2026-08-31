@@ -21,11 +21,11 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (trabajadorRepositorio.buscarPorUsuario("admin").isEmpty()) {
+        if (trabajadorRepositorio.buscarPorUsuario("admin2").isEmpty()) {
             gestionTrabajadorService.registrarTrabajador(
                     "Administrador Sistema",
                     "admin",
-                    "admin123",
+                    "admiN_123",
                     Rol.ADMINISTRADOR,
                     Optional.empty()
             );

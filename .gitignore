@@ -17,6 +17,9 @@ frontend/.npm
 frontend/.eslintcache
 frontend/.vite/
 
+# pnpm local store
+.pnpm-store/
+
 # ----------------------------------------------------------------------
 # 2. Dependencias y Artefactos de Backend (Java / Spring Boot / Gradle)
 # ----------------------------------------------------------------------
