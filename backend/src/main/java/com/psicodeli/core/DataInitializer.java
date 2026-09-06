@@ -21,7 +21,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (trabajadorRepositorio.buscarPorUsuario("admin2").isEmpty()) {
+        if (trabajadorRepositorio.buscarPorUsuario("admin").isEmpty()) {
             gestionTrabajadorService.registrarTrabajador(
                     "Administrador Sistema",
                     "admin",
