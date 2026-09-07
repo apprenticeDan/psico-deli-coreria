@@ -60,4 +60,49 @@ class ProductoFuncionesTest {
         assertEquals(9, cigModificado.stock()); // 9 cajetillas restantes
         assertEquals(20, cigModificado.detalleCigarrillo().get().stockUnidadesSueltas()); // 20 sueltos disponibles
     }
+
+    @Test
+    void generarCodigo_conPrefijoYCorrelativoFormateado() {
+        assertEquals("CER-0001", ProductoFunciones.generarCodigo(CategoriaProducto.CERVEZA, 1));
+        assertEquals("GAS-0042", ProductoFunciones.generarCodigo(CategoriaProducto.GASEOSA, 42));
+        assertEquals("CIG-0999", ProductoFunciones.generarCodigo(CategoriaProducto.CIGARRILLO, 999));
+        assertEquals("REF-1234", ProductoFunciones.generarCodigo(CategoriaProducto.REFRESCO, 1234));
+        assertEquals("TRA-0005", ProductoFunciones.generarCodigo(CategoriaProducto.TRAGO, 5));
+        assertEquals("COM-0003", ProductoFunciones.generarCodigo(CategoriaProducto.COMBO, 3));
+    }
+
+    @Test
+    void crearProducto_conCodigoNuloOVacio_autogeneraCodigoConPrefijo() {
+        Presentacion pres = new Presentacion("Lata", new BigDecimal("350"), UnidadMedida.ML);
+
+        var resNulo = ProductoFunciones.crearProducto(
+                null,
+                "Coca Cola",
+                "Coca Cola Company",
+                CategoriaProducto.GASEOSA,
+                pres,
+                new BigDecimal("7.00"),
+                20,
+                Optional.empty()
+        );
+
+        assertTrue(resNulo.isOk());
+        Producto pNulo = resNulo.getValue();
+        assertNotNull(pNulo.id());
+        assertEquals("GAS-0001", pNulo.codigo());
+
+        var resVacio = ProductoFunciones.crearProducto(
+                "   ",
+                "Ron Abuelo",
+                "Varela Hermanos",
+                CategoriaProducto.TRAGO,
+                pres,
+                new BigDecimal("80.00"),
+                5,
+                Optional.empty()
+        );
+
+        assertTrue(resVacio.isOk());
+        assertEquals("TRA-0001", resVacio.getValue().codigo());
+    }
 }

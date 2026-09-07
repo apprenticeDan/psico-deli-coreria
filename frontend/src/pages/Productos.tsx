@@ -27,6 +27,18 @@ const Productos: Component = () => {
 
   const [error, setError] = createSignal('');
 
+  const prefijoCategoria = (cat: string) => {
+    switch (cat) {
+      case 'CERVEZA': return 'CER';
+      case 'GASEOSA': return 'GAS';
+      case 'CIGARRILLO': return 'CIG';
+      case 'REFRESCO': return 'REF';
+      case 'TRAGO': return 'TRA';
+      case 'COMBO': return 'COM';
+      default: return 'PROD';
+    }
+  };
+
   const handleCategoriaChange = (cat: string) => {
     const isCig = cat === 'CIGARRILLO';
     setFormData({
@@ -42,7 +54,11 @@ const Productos: Component = () => {
     e.preventDefault();
     setError('');
     try {
-      await productosService.crear(formData(), token());
+      const dataToSend = {
+        ...formData(),
+        codigo: undefined, // El backend genera el código correlativo según la categoría
+      };
+      await productosService.crear(dataToSend, token());
       setShowForm(false);
       setFormData({
         codigo: '',
@@ -108,14 +124,18 @@ const Productos: Component = () => {
           <form onSubmit={handleSubmit}>
             <div style={{ display: 'grid', 'grid-template-columns': '1fr 1fr', gap: '1rem' }}>
               <div class="form-group">
-                <label>Código (SKU/Barcode)</label>
+                <label>Código de Producto</label>
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="Ej: CER-001 (opcional)"
-                  value={formData().codigo || ''}
-                  onInput={(e) => setFormData({ ...formData(), codigo: e.currentTarget.value })}
+                  style={{ background: '#f1f5f9', cursor: 'not-allowed', color: '#64748b' }}
+                  value={`Autogenerado (${prefijoCategoria(formData().categoria)}-XXXX)`}
+                  disabled
+                  readOnly
                 />
+                <small style={{ color: '#64748b', 'font-size': '0.8rem' }}>
+                  El sistema asignará automáticamente el correlativo según la categoría.
+                </small>
               </div>
 
               <div class="form-group">

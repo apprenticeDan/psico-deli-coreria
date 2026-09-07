@@ -22,6 +22,28 @@ public class GestionProductoService {
         this.productoRepository = productoRepository;
     }
 
+    public String generarSiguienteCodigo(CategoriaProducto categoria) {
+        CategoriaProducto cat = (categoria != null) ? categoria : CategoriaProducto.CERVEZA;
+        String prefijo = cat.getPrefijo() + "-";
+        List<String> codigosExistentes = productoRepository.findCodigosByPrefijo(prefijo);
+
+        int maxCorrelativo = 0;
+        for (String c : codigosExistentes) {
+            if (c != null && c.startsWith(prefijo)) {
+                String sub = c.substring(prefijo.length()).trim();
+                try {
+                    int val = Integer.parseInt(sub);
+                    if (val > maxCorrelativo) {
+                        maxCorrelativo = val;
+                    }
+                } catch (NumberFormatException ignored) {
+                    // Ignora si el formato no es puramente numérico
+                }
+            }
+        }
+        return ProductoFunciones.generarCodigo(cat, maxCorrelativo + 1);
+    }
+
     public Result<Producto, ErrorDominio> registrarProducto(
             String codigo,
             String nombre,
@@ -32,8 +54,12 @@ public class GestionProductoService {
             Integer stockInicial,
             Optional<DetalleCigarrillo> detalleCigarrillo) {
 
+        String codigoFinal = (codigo != null && !codigo.isBlank())
+                ? codigo.trim().toUpperCase()
+                : generarSiguienteCodigo(categoria);
+
         Result<Producto, ErrorDominio> result = ProductoFunciones.crearProducto(
-                codigo, nombre, marca, categoria, presentacion, precio, stockInicial, detalleCigarrillo
+                codigoFinal, nombre, marca, categoria, presentacion, precio, stockInicial, detalleCigarrillo
         );
 
         if (result.isError()) {

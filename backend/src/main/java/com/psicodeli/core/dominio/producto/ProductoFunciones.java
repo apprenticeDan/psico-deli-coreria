@@ -12,7 +12,11 @@ import java.util.Optional;
  */
 public final class ProductoFunciones {
 
-    private ProductoFunciones() {}
+    public static String generarCodigo(CategoriaProducto categoria, int correlativo) {
+        String prefijo = (categoria != null && categoria.getPrefijo() != null) ? categoria.getPrefijo() : "PROD";
+        int corrVal = Math.max(correlativo, 1);
+        return String.format("%s-%04d", prefijo, corrVal);
+    }
 
     public static Result<Producto, ErrorDominio> crearProducto(
             String codigo,
@@ -34,10 +38,12 @@ public final class ProductoFunciones {
             stockInicial = 0;
         }
 
-        String codigoFinal = (codigo != null && !codigo.isBlank()) ? codigo.trim().toUpperCase() : "PROD-" + System.currentTimeMillis();
+        CategoriaProducto catFinal = (categoria != null) ? categoria : CategoriaProducto.CERVEZA;
+        String codigoFinal = (codigo != null && !codigo.isBlank())
+                ? codigo.trim().toUpperCase()
+                : generarCodigo(catFinal, 1);
         String marcaFinal = (marca != null) ? marca.trim() : "";
         Presentacion presentacionFinal = (presentacion != null) ? presentacion : new Presentacion("Unidad", BigDecimal.ONE, UnidadMedida.UNIDAD);
-        CategoriaProducto catFinal = (categoria != null) ? categoria : CategoriaProducto.CERVEZA;
 
         Producto producto = new Producto(
                 UuidV7.generar(),
