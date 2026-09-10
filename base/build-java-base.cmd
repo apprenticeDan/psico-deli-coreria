@@ -25,7 +25,12 @@ set DOCKER_CMD=docker
 where podman >nul 2>nul
 if %ERRORLEVEL% equ 0 set DOCKER_CMD=podman
 
-%DOCKER_CMD% build -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
+REM Construimos la imagen
+REM %DOCKER_CMD% build -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
+
+REM corregida sin provenance para evitar errores de firma en entornos sin soporte de cosign
+%DOCKER_CMD% build --provenance=false -f Containerfile.java.base --build-arg USERNAME=dev -t "%FULL_IMAGE%:%VERSION%" -t "%FULL_IMAGE%:latest" .
+
 
 if %ERRORLEVEL% NEQ 0 (
     echo.
